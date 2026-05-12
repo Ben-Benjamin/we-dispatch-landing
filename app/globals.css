@@ -33,3 +33,36 @@ body {
 a, button {
   transition: all 0.2s ease-in-out;
 }
+
+/* Custom scrollbar for a polished look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #E8F4FD;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0D2B6B;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1565C0;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid #0D2B6B;
+  outline-offset: 2px;
+}
+
+/* Form input styling */
+input, select, textarea {
+  background-color: white;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(13, 43, 107, 0.4);
+}
