@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Navy & Blue Color Palette */
+  --color-navy-deep: #0D2B6B;
+  --color-navy-dark: #0a1940;
+  --color-navy-light: #1565C0;
+  --color-sky-soft: #E8F4FD;
+  --color-sky-light: #D0E8F8;
+  --color-sky-medium: #C8E6F5;
+  --color-sky-accent: #B8DCF0;
+  
+  /* Semantic tokens */
+  --color-background: #E8F4FD;
+  --color-foreground: #0D2B6B;
+  
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-sky-soft);
+  color: var(--color-navy-deep);
+  font-family: var(--font-sans);
+}
+
+/* Smooth transitions for interactive elements */
+a, button {
+  transition: all 0.2s ease-in-out;
 }
