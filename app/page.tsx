@@ -67,17 +67,10 @@ const services = [
 
 const industries = [
   "HVAC & Air Conditioning",
-  "Plumbing Services",
-  "Electrical Contractors",
   "Locksmith Services",
-  "Towing & Roadside Assistance",
-  "Property Management",
-  "Restoration & Remediation",
-  "Pest Control",
-  "Appliance Repair",
-  "Medical Practices",
-  "Legal Services",
-  "Home Services",
+  "Roofing",
+  "Garage Doors",
+  "Chimney Services",
 ]
 
 function FAQItem({
