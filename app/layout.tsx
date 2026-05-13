@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "title: "WeDispatch | 24/7 Dispatch Solutions"",
-  description: "Professional 24/7 dispatch services for service businesses ",
+  title: "WeDispatch | 24/7 Dispatch Solutions",
+  description: "Professional 24/7 dispatch services for service businesses",
 };
 
 export default function RootLayout({
