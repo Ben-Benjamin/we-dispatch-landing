@@ -13,7 +13,7 @@ const faqs = [
   {
     question: "What kind of businesses can use your services?",
     answer:
-      "Our services are designed for service-based businesses across many industries including HVAC, plumbing, electrical, locksmith, towing, property management, medical practices, legal offices, restoration services, pest control, and any business that needs professional call handling and dispatch services. If your business relies on timely response to customer calls, we can help.",
+      "Our services are designed for service-based businesses including HVAC & Air Conditioning, Locksmith Services, Roofing, Garage Doors, and Chimney Services. If your business relies on timely response to customer calls, we can help.",
   },
   {
     question: "Do your operators know the technical details of my field?",
@@ -28,7 +28,7 @@ const faqs = [
   {
     question: "Do I have to change my phone number?",
     answer:
-      "No, you don't need to change your phone number. We set up call forwarding from your existing business number to our dispatch center. Your customers will continue calling the same number they always have, and you maintain full control over your business identity.",
+      "No, you don't need to change your phone number. We have our in-house dedicated CRM that handles inbound and outbound calls efficiently. If you have an existing system, we can work with that too. Your customers will continue calling the same number they always have, and you maintain full control over your business identity.",
   },
   {
     question: "How much do you charge?",
@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "Do I need to purchase any equipment?",
     answer:
-      "No equipment purchase is necessary. Our service is completely cloud-based and works with your existing phone system. All you need is a phone to receive dispatched jobs and the ability to set up call forwarding, which we'll help you configure during setup. There are no hardware costs, no installation fees, and no technical headaches.",
+      "No equipment purchase is necessary. Our service is completely cloud-based and works seamlessly with our in-house dedicated CRM that handles inbound and outbound calls efficiently. If you have an existing system, we can integrate with that too. There are no hardware costs, no installation fees, and no technical headaches.",
   },
 ]
 
@@ -187,7 +187,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight text-balance">
-              Reliable 24/7 Dispatch Solutions Across the United States
+              Reliable 24/7 Dispatch Solutions For Service Businesses
             </h1>
 
             <p className="mt-6 text-lg md:text-xl text-white/90 leading-relaxed">
@@ -210,20 +210,9 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Trust Badges */}
-            <div className="mt-12 flex flex-wrap items-center gap-6 text-white/90">
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                <span className="text-sm font-medium">24/7 Availability</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5" />
-                <span className="text-sm font-medium">Nationwide Coverage</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
-                <span className="text-sm font-medium">US-Based Operators</span>
-              </div>
+            {/* Slogan */}
+            <div className="mt-12 flex items-center justify-center">
+              <span className="text-2xl md:text-3xl font-bold text-white tracking-wide">Never Miss A Call</span>
             </div>
           </div>
         </div>
@@ -241,20 +230,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
+          <div className="mt-16 grid gap-8 md:grid-cols-2">
             <div className="bg-white rounded-xl p-8 shadow-lg shadow-sky-200 border-l-4 border-[#0D2B6B]">
               <div className="text-4xl font-bold text-[#0D2B6B]">24/7</div>
               <h3 className="mt-2 font-semibold text-[#0D2B6B]">Always Available</h3>
               <p className="mt-2 text-[#0D2B6B]/70">
                 Our operators are ready to answer your calls around the clock, including holidays.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg shadow-sky-200 border-l-4 border-[#0D2B6B]">
-              <div className="text-4xl font-bold text-[#0D2B6B]">100%</div>
-              <h3 className="mt-2 font-semibold text-[#0D2B6B]">U.S. Based</h3>
-              <p className="mt-2 text-[#0D2B6B]/70">
-                All our operators are located in the United States with native English fluency.
               </p>
             </div>
 
@@ -269,14 +250,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES SECTION - Light Blue */}
-      <section id="services" className="bg-[#D0E8F8]">
-        <div className="mx-auto max-w-7xl px-6 py-24">
+      {/* SERVICES SECTION - With Background Image */}
+      <section id="services" className="relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/services-bg.jpg"
+            alt="Professional dispatch operators"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[#0D2B6B]/85" />
+        </div>
+        
+        <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">
-              Comprehensive Dispatch Services
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Never Miss A Call
             </h2>
-            <p className="mt-4 text-lg text-[#0D2B6B]/80 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
               Everything you need to keep your business running smoothly, all in one place.
             </p>
           </div>
@@ -285,7 +277,7 @@ export default function Home() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl p-6 shadow-lg shadow-sky-200 border-l-4 border-[#0D2B6B] hover:shadow-xl transition-shadow"
+                className="bg-white/95 rounded-xl p-6 shadow-lg border-l-4 border-sky-400 hover:shadow-xl transition-shadow"
               >
                 <service.icon className="h-10 w-10 text-[#0D2B6B]" />
                 <h3 className="mt-4 font-semibold text-[#0D2B6B]">{service.title}</h3>
