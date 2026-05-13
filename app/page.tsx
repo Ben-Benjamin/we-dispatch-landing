@@ -110,21 +110,6 @@ function FAQItem({
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    businessType: "",
-    message: "",
-  })
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-    alert("Thank you for your inquiry! We will get back to you shortly.")
-    setFormData({ fullName: "", phone: "", email: "", businessType: "", message: "" })
-  }
 
   return (
     <main className="font-sans">
@@ -390,97 +375,17 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-xl shadow-sky-200">
-              <h3 className="text-xl font-bold text-[#0D2B6B]">Send Us an Inquiry</h3>
-              <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-                <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-[#0D2B6B]">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    required
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
-                    placeholder="John Smith"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-[#0D2B6B]">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
-                    placeholder="(555) 123-4567"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-[#0D2B6B]">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
-                    placeholder="john@company.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="businessType" className="block text-sm font-medium text-[#0D2B6B]">
-                    Business Type
-                  </label>
-                  <select
-                    id="businessType"
-                    required
-                    value={formData.businessType}
-                    onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
-                    className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
-                  >
-                    <option value="">Select your industry</option>
-                    {industries.map((industry) => (
-                      <option key={industry} value={industry}>
-                        {industry}
-                      </option>
-                    ))}
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[#0D2B6B]">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors resize-none"
-                    placeholder="Tell us about your business and dispatch needs..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full rounded-lg bg-[#0D2B6B] px-6 py-4 font-semibold text-white hover:bg-[#1565C0] transition-colors shadow-lg"
-                >
-                  Send Inquiry
-                </button>
-              </form>
+            {/* Google Form */}
+            <div className="bg-white rounded-2xl p-6 shadow-xl shadow-sky-200 flex items-center justify-center">
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSezBXW4dI4qXpNNb38o7e0euMYp-9-NcntxiyFTeS97ccDd6A/viewform?embedded=true"
+                width="100%"
+                height="520"
+                className="max-w-[700px] border-0"
+                title="Contact Form"
+              >
+                Loading...
+              </iframe>
             </div>
           </div>
         </div>
