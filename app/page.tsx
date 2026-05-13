@@ -227,20 +227,18 @@ export default function Home() {
           </div>
         )}
       </header>
-
-      {/* HERO SECTION */}
-      <section className="relative min-h-[600px] lg:min-h-[700px] flex items-center">
+{/* HERO SECTION */}
+      <section className="relative min-h-[700px] lg:min-h-[800px] flex items-center">
         <div className="absolute inset-0">
           <Image
             src="/wedispatch_banner_clean.png"
             alt="We Dispatch - Professional 24/7 Dispatch Services"
             fill
-            className="object-cover object-center"
+            className="object-cover object-right md:object-center"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0D2B6B]/85 via-[#0D2B6B]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0D2B6B]/80 via-[#0D2B6B]/60 to-[#0D2B6B]/80 md:bg-gradient-to-r md:from-[#0D2B6B]/85 md:via-[#0D2B6B]/60 md:to-transparent" />
         </div>
-
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
@@ -250,13 +248,13 @@ export default function Home() {
               We manage your calls, coordinate technicians, and optimize scheduling — so you can focus on delivering exceptional service.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a
+              
                 href="#contact"
                 className="inline-flex items-center justify-center rounded-lg bg-[#0D2B6B] px-8 py-4 text-white font-semibold hover:bg-[#1565C0] transition-colors shadow-xl"
               >
                 Request Consultation
               </a>
-              <a
+              
                 href="tel:+12026015880"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-4 font-semibold text-white hover:bg-white/10 transition-colors"
               >
@@ -279,7 +277,7 @@ export default function Home() {
               Your Business Deserves Professional Dispatch
             </h2>
             <p className="mt-6 text-lg text-[#0D2B6B]/80 leading-relaxed">
-              We Dispatch is a U.S.-based professional answering and dispatch service built specifically for service businesses. Our trained operators become an extension of your team, ensuring every call is answered professionally and every job is dispatched efficiently.
+              We Dispatch is a professional answering and dispatch service built specifically for service businesses. Our trained operators become an extension of your team, ensuring every call is answered professionally and every job is dispatched efficiently.
             </p>
           </div>
 
@@ -537,7 +535,7 @@ export default function Home() {
                 className="h-12 w-auto brightness-0 invert"
               />
               <p className="mt-4 text-white/80 text-sm leading-relaxed">
-                Professional 24/7 dispatch services for service businesses across the United States. Never miss another call.
+                Professional 24/7 dispatch services for service businesses. Never miss another call.
               </p>
             </div>
             <div>
@@ -565,7 +563,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-white/20 text-center">
-            <p className="text-white/70 text-sm">© 2026 WeDispatch | U.S. Dispatch Services</p>
+            <p className="text-white/70 text-sm">© 2026 WeDispatch | Dispatch Services</p>
           </div>
         </div>
       </footer>
