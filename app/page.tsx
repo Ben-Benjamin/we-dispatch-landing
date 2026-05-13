@@ -110,6 +110,47 @@ function FAQItem({
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    businessType: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    // Google Form entry IDs
+    const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSezBXW4dI4qXpNNb38o7e0euMYp-9-NcntxiyFTeS97ccDd6A/formResponse"
+    
+    // Map our form fields to Google Form entries
+    const formDataToSend = new FormData()
+    formDataToSend.append("entry.1017935498", formData.fullName) // Full name
+    formDataToSend.append("entry.1794267777", formData.phone) // Phone number
+    formDataToSend.append("entry.130498498", `Email: ${formData.email} | Business: ${formData.businessType}`) // City/State field - storing email & business type
+    formDataToSend.append("entry.1498407077", formData.message || "No message provided") // Years of Experience field - storing message
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        body: formDataToSend,
+        mode: "no-cors", // Required for Google Forms
+      })
+      
+      // Since no-cors doesn't return response status, we assume success
+      setSubmitStatus("success")
+      setFormData({ fullName: "", phone: "", email: "", businessType: "", message: "" })
+    } catch {
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <main className="font-sans">
@@ -375,17 +416,118 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Google Form */}
-            <div className="bg-white rounded-2xl p-6 shadow-xl shadow-sky-200 flex items-center justify-center">
-              <iframe
-                src="https://docs.google.com/forms/d/e/1FAIpQLSezBXW4dI4qXpNNb38o7e0euMYp-9-NcntxiyFTeS97ccDd6A/viewform?embedded=true"
-                width="100%"
-                height="520"
-                className="max-w-[700px] border-0"
-                title="Contact Form"
-              >
-                Loading...
-              </iframe>
+            {/* Contact Form */}
+            <div className="bg-white rounded-2xl p-8 shadow-xl shadow-sky-200">
+              <h3 className="text-xl font-bold text-[#0D2B6B]">Send Us an Inquiry</h3>
+              
+              {submitStatus === "success" ? (
+                <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
+                  <div className="text-green-600 font-semibold text-lg">Thank you!</div>
+                  <p className="mt-2 text-green-700">Your inquiry has been submitted. We will get back to you shortly.</p>
+                  <button
+                    onClick={() => setSubmitStatus("idle")}
+                    className="mt-4 text-[#0D2B6B] underline hover:no-underline"
+                  >
+                    Send another inquiry
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                  <div>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-[#0D2B6B]">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      required
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
+                      placeholder="John Smith"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-[#0D2B6B]">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
+                      placeholder="(555) 123-4567"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-[#0D2B6B]">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
+                      placeholder="john@company.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="businessType" className="block text-sm font-medium text-[#0D2B6B]">
+                      Business Type *
+                    </label>
+                    <select
+                      id="businessType"
+                      required
+                      value={formData.businessType}
+                      onChange={(e) => setFormData({ ...formData, businessType: e.target.value })}
+                      className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors"
+                    >
+                      <option value="">Select your industry</option>
+                      {industries.map((industry) => (
+                        <option key={industry} value={industry}>
+                          {industry}
+                        </option>
+                      ))}
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-[#0D2B6B]">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={4}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="mt-1 block w-full rounded-lg border border-sky-200 px-4 py-3 text-[#0D2B6B] placeholder-[#0D2B6B]/40 focus:border-[#0D2B6B] focus:ring-2 focus:ring-[#0D2B6B]/20 transition-colors resize-none"
+                      placeholder="Tell us about your business and dispatch needs..."
+                    />
+                  </div>
+
+                  {submitStatus === "error" && (
+                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                      Something went wrong. Please try again or call us directly.
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full rounded-lg bg-[#0D2B6B] px-6 py-4 font-semibold text-white hover:bg-[#1565C0] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Inquiry"}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
