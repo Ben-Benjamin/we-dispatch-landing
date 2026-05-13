@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
-import { ChevronDown, Phone, MapPin, Clock, Users, Headphones, Shield, Zap } from "lucide-react"
+import { ChevronDown, Phone, MapPin, Clock, Users, Headphones, Shield, Zap, Menu, X } from "lucide-react"
 
 const faqs = [
   {
@@ -110,6 +110,7 @@ function FAQItem({
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -125,24 +126,20 @@ export default function Home() {
     setIsSubmitting(true)
     setSubmitStatus("idle")
 
-    // Google Form entry IDs
     const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSezBXW4dI4qXpNNb38o7e0euMYp-9-NcntxiyFTeS97ccDd6A/formResponse"
     
-    // Map our form fields to Google Form entries
     const formDataToSend = new FormData()
-    formDataToSend.append("entry.1017935498", formData.fullName) // Full name
-    formDataToSend.append("entry.1794267777", formData.phone) // Phone number
-    formDataToSend.append("entry.130498498", `Email: ${formData.email} | Business: ${formData.businessType}`) // City/State field - storing email & business type
-    formDataToSend.append("entry.1498407077", formData.message || "No message provided") // Years of Experience field - storing message
+    formDataToSend.append("entry.1017935498", formData.fullName)
+    formDataToSend.append("entry.1794267777", formData.phone)
+    formDataToSend.append("entry.130498498", `Email: ${formData.email} | Business: ${formData.businessType}`)
+    formDataToSend.append("entry.1498407077", formData.message || "No message provided")
 
     try {
       await fetch(formUrl, {
         method: "POST",
         body: formDataToSend,
-        mode: "no-cors", // Required for Google Forms
+        mode: "no-cors",
       })
-      
-      // Since no-cors doesn't return response status, we assume success
       setSubmitStatus("success")
       setFormData({ fullName: "", phone: "", email: "", businessType: "", message: "" })
     } catch {
@@ -152,38 +149,41 @@ export default function Home() {
     }
   }
 
+  const navLinks = [
+    { href: "#about", label: "About" },
+    { href: "#services", label: "Services" },
+    { href: "#industries", label: "Industries" },
+    { href: "#faq", label: "FAQ" },
+    { href: "#contact", label: "Contact" },
+  ]
+
   return (
     <main className="font-sans">
       {/* HEADER - Deep Navy */}
       <header className="sticky top-0 z-50 bg-[#0D2B6B] shadow-lg">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
           <a href="/" className="flex items-center">
             <Image
               src="/wedispatch_logo_clean.png"
               alt="We Dispatch"
               width={180}
               height={60}
-              className="h-14 w-auto"
+              className="h-12 w-auto"
               priority
             />
           </a>
+
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-white">
-            <a href="#about" className="hover:text-sky-300 transition-colors">
-              About
-            </a>
-            <a href="#services" className="hover:text-sky-300 transition-colors">
-              Services
-            </a>
-            <a href="#industries" className="hover:text-sky-300 transition-colors">
-              Industries
-            </a>
-            <a href="#faq" className="hover:text-sky-300 transition-colors">
-              FAQ
-            </a>
-            <a href="#contact" className="hover:text-sky-300 transition-colors">
-              Contact
-            </a>
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="hover:text-sky-300 transition-colors">
+                {link.label}
+              </a>
+            ))}
           </nav>
+
+          {/* Desktop Phone Button */}
           <a
             href="tel:+12026015880"
             className="hidden md:flex items-center gap-2 bg-white text-[#0D2B6B] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors"
@@ -191,12 +191,45 @@ export default function Home() {
             <Phone className="h-4 w-4" />
             (202) 601-5880
           </a>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex items-center justify-center p-2 rounded-lg text-white hover:bg-white/10 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#0a2058] border-t border-white/10 px-6 py-4">
+            <nav className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-white hover:text-sky-300 hover:bg-white/10 transition-colors py-3 px-2 rounded-lg font-medium text-base"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href="tel:+12026015880"
+                className="mt-3 flex items-center justify-center gap-2 bg-white text-[#0D2B6B] px-4 py-3 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors"
+              >
+                <Phone className="h-4 w-4" />
+                (202) 601-5880
+              </a>
+            </nav>
+          </div>
+        )}
       </header>
 
-      {/* HERO SECTION - Full Banner Background */}
+      {/* HERO SECTION */}
       <section className="relative min-h-[600px] lg:min-h-[700px] flex items-center">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <Image
             src="/wedispatch_banner_clean.png"
@@ -205,21 +238,17 @@ export default function Home() {
             className="object-cover object-center"
             priority
           />
-          {/* Semi-transparent Navy Overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0D2B6B]/85 via-[#0D2B6B]/60 to-transparent" />
         </div>
 
-        {/* Hero Content */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight text-balance">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
               Reliable 24/7 Dispatch Solutions For Service Businesses
             </h1>
-
             <p className="mt-6 text-lg md:text-xl text-white/90 leading-relaxed">
               We manage your calls, coordinate technicians, and optimize scheduling — so you can focus on delivering exceptional service.
             </p>
-
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <a
                 href="#contact"
@@ -235,16 +264,14 @@ export default function Home() {
                 Call Now
               </a>
             </div>
-
-            {/* Slogan */}
-            <div className="mt-12 flex items-center justify-center">
+            <div className="mt-12 flex items-center">
               <span className="text-2xl md:text-3xl font-bold text-white tracking-wide">Never Miss A Call</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ABOUT SECTION - Soft Sky Blue */}
+      {/* ABOUT SECTION */}
       <section id="about" className="bg-[#E8F4FD]">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-center max-w-3xl mx-auto">
@@ -264,7 +291,6 @@ export default function Home() {
                 Our operators are ready to answer your calls around the clock, including holidays.
               </p>
             </div>
-
             <div className="bg-white rounded-xl p-8 shadow-lg shadow-sky-200 border-l-4 border-[#0D2B6B]">
               <div className="text-4xl font-bold text-[#0D2B6B]">{"<30s"}</div>
               <h3 className="mt-2 font-semibold text-[#0D2B6B]">Answer Time</h3>
@@ -276,9 +302,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES SECTION - With Background Image */}
+      {/* SERVICES SECTION */}
       <section id="services" className="relative">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <Image
             src="/services-bg.jpg"
@@ -288,18 +313,14 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-[#0D2B6B]/85" />
         </div>
-        
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Never Miss A Call
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Never Miss A Call</h2>
             <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
               Everything you need to keep your business running smoothly, all in one place.
             </p>
           </div>
-
-          <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service, index) => (
               <div
                 key={index}
@@ -307,27 +328,22 @@ export default function Home() {
               >
                 <service.icon className="h-10 w-10 text-[#0D2B6B]" />
                 <h3 className="mt-4 font-semibold text-[#0D2B6B]">{service.title}</h3>
-                <p className="mt-2 text-sm text-[#0D2B6B]/70 leading-relaxed">
-                  {service.description}
-                </p>
+                <p className="mt-2 text-sm text-[#0D2B6B]/70 leading-relaxed">{service.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* INDUSTRIES SECTION - Soft Sky Blue */}
+      {/* INDUSTRIES SECTION */}
       <section id="industries" className="bg-[#E8F4FD]">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">
-              Industries We Serve
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">Industries We Serve</h2>
             <p className="mt-4 text-lg text-[#0D2B6B]/80 max-w-2xl mx-auto">
               We specialize in dispatch services for a wide range of service-based businesses.
             </p>
           </div>
-
           <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {industries.map((industry, index) => (
               <div
@@ -341,18 +357,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ SECTION - Medium Sky Blue */}
+      {/* FAQ SECTION */}
       <section id="faq" className="bg-[#C8E6F5]">
         <div className="mx-auto max-w-3xl px-6 py-24">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">
-              Frequently Asked Questions
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">Frequently Asked Questions</h2>
             <p className="mt-4 text-lg text-[#0D2B6B]/80">
               Everything you need to know about our dispatch services
             </p>
           </div>
-
           <div className="mt-12 space-y-4">
             {faqs.map((faq, index) => (
               <FAQItem
@@ -367,19 +380,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT SECTION - Soft Sky Blue */}
+      {/* CONTACT SECTION */}
       <section id="contact" className="bg-[#E8F4FD]">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="grid gap-12 lg:grid-cols-2 items-start">
-            {/* Contact Info */}
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">
-                Get In Touch
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0D2B6B]">Get In Touch</h2>
               <p className="mt-4 text-lg text-[#0D2B6B]/80 leading-relaxed">
                 Ready to never miss another call? Contact us today for a free consultation and customized quote for your business.
               </p>
-
               <div className="mt-8 space-y-6">
                 <a
                   href="tel:+12026015880"
@@ -393,7 +402,6 @@ export default function Home() {
                     <div className="text-lg">+1 (202) 601-5880</div>
                   </div>
                 </a>
-
                 <div className="flex items-center gap-4 text-[#0D2B6B]">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0D2B6B] text-white">
                     <MapPin className="h-5 w-5" />
@@ -403,7 +411,6 @@ export default function Home() {
                     <div>600 E St NW #600, Washington, DC 20004</div>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-4 text-[#0D2B6B]">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0D2B6B] text-white">
                     <Clock className="h-5 w-5" />
@@ -416,10 +423,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="bg-white rounded-2xl p-8 shadow-xl shadow-sky-200">
               <h3 className="text-xl font-bold text-[#0D2B6B]">Send Us an Inquiry</h3>
-              
               {submitStatus === "success" ? (
                 <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
                   <div className="text-green-600 font-semibold text-lg">Thank you!</div>
@@ -434,9 +439,7 @@ export default function Home() {
               ) : (
                 <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                   <div>
-                    <label htmlFor="fullName" className="block text-sm font-medium text-[#0D2B6B]">
-                      Full Name *
-                    </label>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-[#0D2B6B]">Full Name *</label>
                     <input
                       type="text"
                       id="fullName"
@@ -447,11 +450,8 @@ export default function Home() {
                       placeholder="John Smith"
                     />
                   </div>
-
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-[#0D2B6B]">
-                      Phone Number *
-                    </label>
+                    <label htmlFor="phone" className="block text-sm font-medium text-[#0D2B6B]">Phone Number *</label>
                     <input
                       type="tel"
                       id="phone"
@@ -462,11 +462,8 @@ export default function Home() {
                       placeholder="(555) 123-4567"
                     />
                   </div>
-
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#0D2B6B]">
-                      Email Address *
-                    </label>
+                    <label htmlFor="email" className="block text-sm font-medium text-[#0D2B6B]">Email Address *</label>
                     <input
                       type="email"
                       id="email"
@@ -477,11 +474,8 @@ export default function Home() {
                       placeholder="john@company.com"
                     />
                   </div>
-
                   <div>
-                    <label htmlFor="businessType" className="block text-sm font-medium text-[#0D2B6B]">
-                      Business Type *
-                    </label>
+                    <label htmlFor="businessType" className="block text-sm font-medium text-[#0D2B6B]">Business Type *</label>
                     <select
                       id="businessType"
                       required
@@ -491,18 +485,13 @@ export default function Home() {
                     >
                       <option value="">Select your industry</option>
                       {industries.map((industry) => (
-                        <option key={industry} value={industry}>
-                          {industry}
-                        </option>
+                        <option key={industry} value={industry}>{industry}</option>
                       ))}
                       <option value="Other">Other</option>
                     </select>
                   </div>
-
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-[#0D2B6B]">
-                      Message
-                    </label>
+                    <label htmlFor="message" className="block text-sm font-medium text-[#0D2B6B]">Message</label>
                     <textarea
                       id="message"
                       rows={4}
@@ -512,13 +501,11 @@ export default function Home() {
                       placeholder="Tell us about your business and dispatch needs..."
                     />
                   </div>
-
                   {submitStatus === "error" && (
                     <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
                       Something went wrong. Please try again or call us directly.
                     </div>
                   )}
-
                   <button
                     type="submit"
                     disabled={isSubmitting}
@@ -533,24 +520,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER - Background Image with Dark Navy Overlay */}
+      {/* FOOTER */}
       <footer className="relative">
-        {/* Background Image */}
         <div className="absolute inset-0">
-          <Image
-            src="/wedispatch_footer_bg.png"
-            alt=""
-            fill
-            className="object-cover"
-          />
-          {/* Dark Navy Overlay */}
+          <Image src="/wedispatch_footer_bg.png" alt="" fill className="object-cover" />
           <div className="absolute inset-0 bg-[rgba(10,25,70,0.82)]" />
         </div>
-
-        {/* Footer Content */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
           <div className="grid gap-12 md:grid-cols-3">
-            {/* Logo & Description */}
             <div>
               <Image
                 src="/wedispatch_logo_clean.png"
@@ -563,37 +540,20 @@ export default function Home() {
                 Professional 24/7 dispatch services for service businesses across the United States. Never miss another call.
               </p>
             </div>
-
-            {/* Quick Links */}
             <div>
               <h4 className="font-semibold text-white">Quick Links</h4>
               <nav className="mt-4 flex flex-col gap-2">
-                <a href="#about" className="text-white/80 hover:text-white transition-colors text-sm">
-                  About Us
-                </a>
-                <a href="#services" className="text-white/80 hover:text-white transition-colors text-sm">
-                  Services
-                </a>
-                <a href="#industries" className="text-white/80 hover:text-white transition-colors text-sm">
-                  Industries
-                </a>
-                <a href="#faq" className="text-white/80 hover:text-white transition-colors text-sm">
-                  FAQ
-                </a>
-                <a href="#contact" className="text-white/80 hover:text-white transition-colors text-sm">
-                  Contact
-                </a>
+                {navLinks.map((link) => (
+                  <a key={link.href} href={link.href} className="text-white/80 hover:text-white transition-colors text-sm">
+                    {link.label}
+                  </a>
+                ))}
               </nav>
             </div>
-
-            {/* Contact Info */}
             <div>
               <h4 className="font-semibold text-white">Contact</h4>
               <div className="mt-4 space-y-3">
-                <a
-                  href="tel:+12026015880"
-                  className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
-                >
+                <a href="tel:+12026015880" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm">
                   <Phone className="h-4 w-4" />
                   +1 (202) 601-5880
                 </a>
@@ -604,12 +564,8 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Bottom Bar */}
           <div className="mt-12 pt-8 border-t border-white/20 text-center">
-            <p className="text-white/70 text-sm">
-              © 2025 WeDispatch | U.S. Dispatch Services
-            </p>
+            <p className="text-white/70 text-sm">© 2026 WeDispatch | U.S. Dispatch Services</p>
           </div>
         </div>
       </footer>
