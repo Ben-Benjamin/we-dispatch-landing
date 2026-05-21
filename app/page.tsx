@@ -218,8 +218,7 @@ export default function Home() {
               ))}
               <a
                 href="tel:+12026015880"
-                className="mt-3 flex items-center justify-center gap-2 bg-white text-[#0D2B6B] px-4 py-3 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors"
-              >
+                className="mt-3 flex items-center justify-center gap-2 bg-white text-[#0D2B6B] px-4 py-3 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors >
                 <Phone className="h-4 w-4" />
                 (202) 601-5880
               </a>
