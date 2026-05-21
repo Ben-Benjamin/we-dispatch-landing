@@ -218,7 +218,8 @@ export default function Home() {
               ))}
               <a
                 href="tel:+12026015880"
-                className="mt-3 flex items-center justify-center gap-2 bg-white text-[#0D2B6B] px-4 py-3 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors >
+                className="mt-3 flex items-center justify-center gap-2 bg-white text-[#0D2B6B] px-4 py-3 rounded-lg font-semibold text-sm hover:bg-sky-100 transition-colors"
+              >
                 <Phone className="h-4 w-4" />
                 (202) 601-5880
               </a>
@@ -226,7 +227,8 @@ export default function Home() {
           </div>
         )}
       </header>
-{/* HERO SECTION */}
+
+      {/* HERO SECTION */}
       <section className="relative min-h-[700px] lg:min-h-[800px] flex items-center">
         <div className="absolute inset-0">
           <Image
@@ -247,13 +249,13 @@ export default function Home() {
               We manage your calls, coordinate technicians, and optimize scheduling — so you can focus on delivering exceptional service.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              
+              <a
                 href="#contact"
                 className="inline-flex items-center justify-center rounded-lg bg-[#0D2B6B] px-8 py-4 text-white font-semibold hover:bg-[#1565C0] transition-colors shadow-xl"
               >
                 Request Consultation
               </a>
-              
+              <a
                 href="tel:+12026015880"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-4 font-semibold text-white hover:bg-white/10 transition-colors"
               >
